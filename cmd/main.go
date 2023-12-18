@@ -63,6 +63,10 @@ func main() {
 		fmt.Println(err)
 	}
 
+	for {
+		
+	}
+
 }
 
 func sign(user *login.UserData) error {
