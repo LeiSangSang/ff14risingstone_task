@@ -24,15 +24,12 @@ func main() {
 		return
 	}
 
-	if User.GetUserInfo().IsSign == 0 {
-		err = sign(User)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-	} else {
-		fmt.Println("今日已签到,跳过签到")
+	err = sign(User)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+	fmt.Println("已签到")
 
 	fmt.Println("----开始点赞----")
 	sum := 0
