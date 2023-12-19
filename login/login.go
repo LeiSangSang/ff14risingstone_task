@@ -129,6 +129,8 @@ func (t *UserData) getLoginQRCode() error {
 	}
 	ascii := qrc.ToSmallString(false)
 	fmt.Println(ascii)
+
+	fmt.Println("\n如果二维码显示异常,请尝试右键修改控制台字体")
 	return nil
 }
 
