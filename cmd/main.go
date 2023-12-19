@@ -67,8 +67,8 @@ func main() {
 }
 
 func sign(user *login.UserData) error {
-	signPath := `https://apiff14risingstones.web.sdo.com/api/home/sign/mySignLog?month=2023-12`
-	req, err := http.NewRequest("GET", signPath, nil)
+	signPath := `https://apiff14risingstones.web.sdo.com/api/home/sign/signIn`
+	req, err := http.NewRequest("POST", signPath, nil)
 	if err != nil {
 		return err
 	}
@@ -76,8 +76,34 @@ func sign(user *login.UserData) error {
 	if err != nil {
 		return err
 	}
+	type resultBody struct {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+		Data struct {
+			SqMsg          string `json:"sqMsg"`
+			ContinuousDays int    `json:"continuousDays"`
+			TotalDays      string `json:"totalDays"`
+			SqExp          int    `json:"sqExp"`
+			ShopExp        int    `json:"shopExp"`
+		} `json:"data"`
+	}
+	re := new(resultBody)
 	defer resp.Body.Close()
-	fmt.Println("签到成功!")
+	result, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	result = bytes.TrimSpace(result)
+
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+	err = json.Unmarshal(result, re)
+	if err != nil {
+		return err
+	}
+	fmt.Println(re.Msg)
+	if re.Code == 10000 {
+		fmt.Println(re.Data.SqMsg)
+	}
 	return nil
 }
 
