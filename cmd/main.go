@@ -53,7 +53,7 @@ func main() {
 		}
 	}
 
-	fmt.Println("----开始发动态----")
+	fmt.Println("----开始发评论----")
 	err = create(User)
 
 	if err != nil {
@@ -88,12 +88,14 @@ func create(user *login.UserData) error {
 	}
 	re := new(resultBody)
 
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/dynamic/create`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/comment`
 
 	form := url.Values{}
-	form.Add("content", `<p>丝瓜的任务罢了</p>`)
-	form.Add("scope", "1")
-	form.Add("pic_url", "")
+	form.Add("content", `<p><span class="at-emo">[emo2]</span>&nbsp;</p>`)
+	form.Add("posts_id", "9365")
+	form.Add("parent_id", "0")
+	form.Add("root_parent", "0")
+	form.Add("comment_pic", "")
 
 	req, err := http.NewRequest("POST", urlLogin, strings.NewReader(form.Encode()))
 	if err != nil {
