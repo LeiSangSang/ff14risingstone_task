@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"stones/login"
+	"stones/tempsuid"
 	"strconv"
 	"strings"
 )
@@ -22,8 +23,12 @@ func Dynamic(user *login.UserData) (int, error) {
 	}
 	re := new(resultBody)
 
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/dynamic/create`
-
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/dynamic/create?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return 0, err
+	}
+	urlLogin = urlLogin + tempsUid
 	form := url.Values{}
 	form.Add("content", `<p>丝瓜的任务罢了</p>`)
 	form.Add("scope", "1")
@@ -68,7 +73,12 @@ func DelDynamic(user *login.UserData, id int) error {
 	}
 	re := new(resultBody)
 
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/dynamic/deleteDynamic`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/dynamic/deleteDynamic?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return err
+	}
+	urlLogin = urlLogin + tempsUid
 
 	param := `{"dynamic_id":` + strconv.Itoa(id) + `}`
 

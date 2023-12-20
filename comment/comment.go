@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"stones/login"
+	"stones/tempsuid"
 	"strings"
 )
 
@@ -18,7 +19,12 @@ func Comment(user *login.UserData) error {
 	}
 	re := new(resultBody)
 
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/comment`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/comment?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return err
+	}
+	urlLogin = urlLogin + tempsUid
 
 	form := url.Values{}
 	form.Add("content", `<p><span class="at-emo">[emo2]</span>&nbsp;</p>`)

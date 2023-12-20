@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
+	"stones/tempsuid"
 	"strconv"
 	"strings"
 	"time"
@@ -131,6 +132,7 @@ func (t *UserData) getLoginQRCode() error {
 	fmt.Println(ascii)
 
 	fmt.Println("\n如果二维码显示异常,请尝试右键修改控制台字体")
+	fmt.Println("github: https://github.com/LeiSangSang/ff14risingstone_task")
 	return nil
 }
 
@@ -185,7 +187,12 @@ func (t *UserData) riSingStonesLogin() error {
 }
 
 func (t *UserData) getLoginInfo() error {
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/GHome/isLogin`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/GHome/isLogin?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return err
+	}
+	urlLogin = urlLogin + tempsUid
 	req, err := http.NewRequest("GET", urlLogin, nil)
 	if err != nil {
 		return err
@@ -218,7 +225,12 @@ func (t *UserData) getLoginInfo() error {
 }
 
 func (t *UserData) getCharacterBindInfo() error {
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/groupAndRole/getCharacterBindInfo?platform=1`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/groupAndRole/getCharacterBindInfo?platform=1&tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return err
+	}
+	urlLogin = urlLogin + tempsUid
 	req, err := http.NewRequest("GET", urlLogin, nil)
 	if err != nil {
 		return err

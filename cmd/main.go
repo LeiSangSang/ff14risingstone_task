@@ -13,6 +13,7 @@ import (
 	"stones/exp"
 	"stones/login"
 	"stones/post"
+	"stones/tempsuid"
 	"time"
 )
 
@@ -88,7 +89,12 @@ func main() {
 }
 
 func sign(user *login.UserData) error {
-	signPath := `https://apiff14risingstones.web.sdo.com/api/home/sign/signIn`
+	signPath := `https://apiff14risingstones.web.sdo.com/api/home/sign/signIn?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return err
+	}
+	signPath = signPath + tempsUid
 	req, err := http.NewRequest("POST", signPath, nil)
 	if err != nil {
 		return err

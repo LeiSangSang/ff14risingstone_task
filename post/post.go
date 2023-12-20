@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"stones/login"
+	"stones/tempsuid"
 	"strconv"
 	"strings"
 	"time"
@@ -27,7 +28,12 @@ type List struct {
 func GetPostList(User *login.UserData, page int) (*List, error) {
 	list := new(List)
 	list.client = User.GetClient()
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/postsList?type=1&is_top=0&is_refine=0&part_id=&hotType=postsHotNow&order=&page=` + strconv.Itoa(page) + `&limit=15`
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/postsList?type=1&is_top=0&is_refine=0&part_id=&hotType=postsHotNow&order=&page=` + strconv.Itoa(page) + `&limit=15&tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return nil, err
+	}
+	urlLogin = urlLogin + tempsUid
 	req, err := http.NewRequest("GET", urlLogin, nil)
 	if err != nil {
 		return nil, err
@@ -117,8 +123,12 @@ func (t *P) l(client *http.Client) (int, string, error) {
 	}
 	re := new(resultBody)
 
-	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/like`
-
+	urlLogin := `https://apiff14risingstones.web.sdo.com/api/home/posts/like?tempsuid=`
+	tempsUid, err := tempsuid.Get()
+	if err != nil {
+		return 0, ``, err
+	}
+	urlLogin = urlLogin + tempsUid
 	form := url.Values{}
 	form.Add("id", t.PostsId)
 	form.Add("type", "1")
