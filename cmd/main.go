@@ -113,13 +113,6 @@ func sign(user *login.UserData) error {
 	type resultBody struct {
 		Code int    `json:"code"`
 		Msg  string `json:"msg"`
-		Data struct {
-			SqMsg          string `json:"sqMsg"`
-			ContinuousDays int    `json:"continuousDays"`
-			TotalDays      string `json:"totalDays"`
-			SqExp          int    `json:"sqExp"`
-			ShopExp        int    `json:"shopExp"`
-		} `json:"data"`
 	}
 	re := new(resultBody)
 	defer resp.Body.Close()
@@ -135,9 +128,6 @@ func sign(user *login.UserData) error {
 		return err
 	}
 	fmt.Println(re.Msg)
-	if re.Code == 10000 {
-		fmt.Println(re.Data.SqMsg)
-	}
 	return nil
 }
 
