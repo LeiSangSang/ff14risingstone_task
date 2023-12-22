@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-const tagName = `v0.0.6`
+const tagName = `v0.0.7`
 
 func main() {
 
