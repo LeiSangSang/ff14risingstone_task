@@ -21,14 +21,9 @@ const tagName = `v0.0.6`
 
 func main() {
 
-	err := checkTag()
-	if err != nil {
-		fmt.Println(`获取版本号失败,可能由于连接github异常`)
-	}
-
 	User := login.NewUser()
 
-	err = User.Login()
+	err := User.Login()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -131,33 +126,33 @@ func sign(user *login.UserData) error {
 	return nil
 }
 
-func checkTag() error {
-	res, err := http.Get(`https://api.github.com/repos/LeiSangSang/ff14risingstone_task/releases/latest`)
-	if err != nil {
-		return err
-	}
-	result, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-
-	type resultBody struct {
-		TagName string `json:"tag_name"`
-	}
-	result = bytes.TrimSpace(result)
-	re := new(resultBody)
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	err = json.Unmarshal(result, re)
-	if err != nil {
-		return err
-	}
-
-	if re.TagName != tagName {
-		fmt.Println(`程序存在更新版本,请前往github获取更新`)
-		b := make([]byte, 1)
-		os.Stdin.Read(b)
-		os.Exit(0)
-	}
-	return nil
-}
+//func checkTag() error {
+//	res, err := http.Get(`https://api.github.com/repos/LeiSangSang/ff14risingstone_task/releases/latest`)
+//	if err != nil {
+//		return err
+//	}
+//	result, err := ioutil.ReadAll(res.Body)
+//	if err != nil {
+//		return err
+//	}
+//	defer res.Body.Close()
+//
+//	type resultBody struct {
+//		TagName string `json:"tag_name"`
+//	}
+//	result = bytes.TrimSpace(result)
+//	re := new(resultBody)
+//	var json = jsoniter.ConfigCompatibleWithStandardLibrary
+//	err = json.Unmarshal(result, re)
+//	if err != nil {
+//		return err
+//	}
+//
+//	if re.TagName != tagName {
+//		fmt.Println(`程序存在更新版本,请前往github获取更新`)
+//		b := make([]byte, 1)
+//		os.Stdin.Read(b)
+//		os.Exit(0)
+//	}
+//	return nil
+//}
