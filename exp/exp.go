@@ -34,7 +34,7 @@ func Exp(user *login.UserData) error {
 
 	fmt.Println("\n----发评论五条----")
 	for i := 0; i < 5; i++ {
-		time.Sleep(3 * time.Second)
+		time.Sleep(5 * time.Second)
 		err := comment.Comment(user)
 		if err != nil {
 			return err

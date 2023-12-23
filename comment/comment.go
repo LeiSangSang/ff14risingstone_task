@@ -5,10 +5,12 @@ import (
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"stones/login"
 	"stones/tempsuid"
+	"strconv"
 	"strings"
 )
 
@@ -27,7 +29,8 @@ func Comment(user *login.UserData) error {
 	urlLogin = urlLogin + tempsUid
 
 	form := url.Values{}
-	form.Add("content", `<p><span class="at-emo">[emo2]</span>&nbsp;</p>`)
+	emoji := rand.Intn(29)
+	form.Add("content", `<p><span class="at-emo">[emo`+strconv.Itoa(emoji)+`]</span>&nbsp;</p>`)
 	form.Add("posts_id", "9365")
 	form.Add("parent_id", "0")
 	form.Add("root_parent", "0")
